@@ -1,21 +1,40 @@
-<div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-  <% end %>
-
-  <% content_for :title, "Categories" %>
-
-  <div class="flex justify-between items-center">
+<div class="p-6">
+  <div class="flex justify-between items-center mb-6">
     <h1 class="font-bold text-4xl">Categories</h1>
-    <%= link_to "New category", new_admin_category_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <%= link_to "New category", new_admin_category_path, 
+        class: "rounded-lg py-2 px-4 bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors" %>
   </div>
 
-  <div id="admin_categories" class="min-w-full">
-    <% @admin_categories.each do |admin_category| %>
-      <%= render admin_category %>
-      <p>
-        <%= link_to "Show this category", admin_category, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
-    <% end %>
+  <div class="bg-white rounded-lg shadow-sm">
+    <table class="w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">Name</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-2/4">Description</th>
+          <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% @admin_categories.each do |admin_category| %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <%= admin_category.name %>
+            </td>
+            <td class="px-6 py-4">
+              <%= admin_category.description %>
+            </td>
+            <td class="px-6 py-4 text-right text-sm">
+              <%= link_to "Edit", edit_admin_category_path(admin_category), 
+                  class: "text-green-600 hover:text-green-900 mr-3" %>
+              <%= button_to "Delete", admin_category_path(admin_category), 
+                  method: :delete,
+                  class: "text-red-600 hover:text-red-900 inline",
+                  form: { class: 'inline' },
+                  data: { confirm: "Are you sure?" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </div>
